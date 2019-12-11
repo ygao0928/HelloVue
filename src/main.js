@@ -6,7 +6,11 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
-Vue.prototype.$axios=axios
+import './assets/css/global.css'
+import './assets/fonts/iconfont.css'
+
+Vue.prototype.$http=axios
+axios.defaults.baseURL='http://192.168.0.197:8077/'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
