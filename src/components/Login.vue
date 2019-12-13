@@ -1,5 +1,6 @@
 <template>
   <div class="login_container">
+    <router-view></router-view>
     <div class="login_box">
       <div class="avatar_box">
         <img src="../assets/logo.png" alt srcset />
@@ -39,15 +40,16 @@
   </div>
 </template>
 <script>
-import { async } from "q";
+//import qs from "qs";
+
 export default {
   data() {
     return {
       loginForm: {
-        username: "",
-        password: ""
+        username: "高勇",
+        password: "123456"
       },
-      //表單驗證
+      //表单验证
       loginFormRules: {
         username: [
           { required: true, message: "请输入登錄名稱", trigger: "blur" },
@@ -55,7 +57,7 @@ export default {
         ],
         password: [
           { required: true, message: "请输入登錄密碼", trigger: "blur" },
-          { min: 6, max: 15, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { min: 6, max: 15, message: "长度在 6 到 15 个字符", trigger: "blur" }
         ]
       }
     };
@@ -65,17 +67,34 @@ export default {
       this.$refs.loginFormRef.resetFields();
       //console.log(this);
     },
-    login() {
+    async login() {
       this.$refs.loginFormRef.validate(valid => {
         console.log(valid);
         if (!valid) return;
-        this.$http(
-          "/apis/vue-api.asmx/login?useName=" + this.loginForm.username + "&passPord=" + this.loginForm.password
-        ).then(
-          ({ data })=>{
-            
+        let uname = this.loginForm.username;
+        let pass = this.loginForm.password;
+        console.log(uname, pass);
+
+        const that = this;
+        this.$http({
+          method: "post",
+          url: "/apis/AppData.asmx/login",
+          data: that.$qs.stringify({ name: uname, pass: pass }),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
           }
-        );
+          //   url: "/apis/AppData.asmx/HelloWorld"
+        }).then(function(response) {
+          let dates = that.$x2js.xml2js(response.data).string.__text;
+          console.log(response);
+          console.log(that.$router, "1212");
+          if (dates == "登陆成功") {
+            that.$message.success("登陆成功");
+            that.$route.push({ path: '/home' });
+          } else {
+            that.$message.success(dates);
+          }
+        });
       });
     }
   }
