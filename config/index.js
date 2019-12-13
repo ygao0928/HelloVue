@@ -16,7 +16,8 @@ module.exports = {
       '/apis': {
       // 测试环境
         // target: 'http://192.168.0.114:8866', 
-        target: 'http://192.168.0.197:8077/', 
+      //  target: 'http://192.168.0.197:8077/', http://localhost:1277/
+      target: 'http://localhost:42479/',
         changeOrigin: true,
         pathRewrite: {
           '^/apis': '' 
