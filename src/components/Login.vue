@@ -34,6 +34,7 @@
           <!-- 按鈕 -->
           <el-button type="primary" @click="login">登錄</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
+<router-link to="/home">跳转到home</router-link>
         </el-form-item>
       </el-form>
     </div>
@@ -67,7 +68,7 @@ export default {
       this.$refs.loginFormRef.resetFields();
       //console.log(this);
     },
-    async login() {
+     login() {
       this.$refs.loginFormRef.validate(valid => {
         console.log(valid);
         if (!valid) return;
@@ -85,14 +86,19 @@ export default {
           }
           //   url: "/apis/AppData.asmx/HelloWorld"
         }).then(function(response) {
-          let dates = that.$x2js.xml2js(response.data).string.__text;
-          console.log(response);
-          console.log(that.$router, "1212");
-          if (dates == "登陆成功") {
+          const dates =that.$x2js.xml2js(response.data).string.__text;
+         // console.log(JSON.parse(dates));
+          console.log(dates,dates=="登陆成功", "1212");
+          if ( dates=="登录成功") {
+            that.$router.push({ path: '/home' })
             that.$message.success("登陆成功");
-            that.$route.push({ path: '/home' });
+            console.log("1");
+           
+           
           } else {
-            that.$message.success(dates);
+            console.log("2");
+          //  that.$router.push({ path: '/home' })
+            that.$message.error("登录失败");
           }
         });
       });
