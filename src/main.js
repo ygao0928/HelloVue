@@ -8,7 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
+//data 格式转化
 import qs from 'qs'
+// xml 格式化
 import x2js from 'x2js'
 
 Vue.prototype.$http=axios

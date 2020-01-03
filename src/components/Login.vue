@@ -87,17 +87,13 @@ export default {
           //   url: "/apis/AppData.asmx/HelloWorld"
         }).then(function(response) {
           const dates =that.$x2js.xml2js(response.data).string.__text;
-         // console.log(JSON.parse(dates));
+          console.log(JSON.parse(dates));
           console.log(dates,dates=="登陆成功", "1212");
-          if ( dates=="登录成功") {
-            that.$router.push({ path: '/home' })
+          if ( JSON.parse(dates).msg=="登录成功") {
+            var user=
+            that.$router.push({ path: '/main' })
             that.$message.success("登陆成功");
-            console.log("1");
-           
-           
-          } else {
-            console.log("2");
-          //  that.$router.push({ path: '/home' })
+             } else {
             that.$message.error("登录失败");
           }
         });

@@ -1,5 +1,6 @@
 <template>
-  <el-table class="User-list" :data="employeeList" border stripe>
+  <div class="employees">
+    <el-table :data="employeeList" border stripe>
     <el-table-column type="index"></el-table-column>
     <el-table-column label="姓名" prop="username"></el-table-column>
     <el-table-column label="性别" prop="sex"></el-table-column>
@@ -8,6 +9,7 @@
     <el-table-column label="状态" prop="State"></el-table-column>
     <el-table-column label="操作" ></el-table-column>
   </el-table>
+  </div>
 </template>
 <script>
 export default {
@@ -38,9 +40,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.User-list{
+.employees{
+  width: 500px;
+  height: 500px;
   margin-top:50px; 
   font-size: 14px;
   text-align: center;
+  float: right;
 }
 </style>
