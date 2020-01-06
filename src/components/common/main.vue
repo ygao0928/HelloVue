@@ -22,6 +22,7 @@
           <el-menu-item index="home">
             <i class="el-icon-menu"></i>
             <span slot="title">我的</span>
+            <router-view/>
           </el-menu-item>
           <el-menu-item index="2">
             <i class="el-icon-menu"></i>
@@ -70,14 +71,18 @@
         </el-menu>
       </el-col>
     </el-row>
-    <div id="right-content">
+    <!-- <div id="right-content" style="float:right">
       <router-view />
-    </div>
+    </div> -->
   </div>
+  
 </template>
 
 <script>
 export default {
+  components:{
+    Home
+  },
   data() {
     return {
       profile: { name: "", position: "" }
@@ -85,10 +90,15 @@ export default {
   },
   methods: {
     created() {
-      // 这是遇到的第二个生命周期函数
-      alert(111);
+      this.show();
+
       // console.log(this.msg)
       // this.show()
+    },
+    show() {
+      var user_id = this.store.getters.token();
+      // 这是遇到的第二个生命周期函数
+      alert(user_id, "aaaaaaa");
     }
   }
 };

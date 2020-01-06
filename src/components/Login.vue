@@ -90,8 +90,12 @@ export default {
           console.log(JSON.parse(dates));
           console.log(dates,dates=="登陆成功", "1212");
           if ( JSON.parse(dates).msg=="登录成功") {
-            var user=
-            that.$router.push({ path: '/main' })
+            var user_id=JSON.parse(dates).employee_id;
+           // that.$store.commit("setUser",user_id);
+           that.$cookies.set('emp_id',JSON.parse(dates).employee_id);
+           localStorage.setItem('ms_username', JSON.parse(dates).user_name);
+           sessionStorage.setItem("emp_id", JSON.parse(dates).employee_id);
+            that.$router.push({ path: '/wode' });
             that.$message.success("登陆成功");
              } else {
             that.$message.error("登录失败");

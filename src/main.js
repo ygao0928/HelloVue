@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 //data 格式转化
 import qs from 'qs'
 // xml 格式化
@@ -24,8 +26,8 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  //i18n,
+  render: h => h(App)
+}).$mount('#app');
+
