@@ -20,13 +20,14 @@
           </div>
         </el-card>
         <el-card shadow="hover" style="height:252px;">
-          <div slot="header" class="clearfix">
+          <!-- <div slot="header" class="clearfix">
             <span>语言详情</span>
           </div>Vue
           <el-progress :percentage="71.3" color="#42b983"></el-progress>JavaScript
           <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS
           <el-progress :percentage="13.7"></el-progress>HTML
-          <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+          <el-progress :percentage="5.9" color="#f56c6c"></el-progress> -->
+          <div id="myChart" :style="{width: '400px', height: '200px'}"></div>
         </el-card>
       </el-col>
       <el-col :span="16">
@@ -94,16 +95,17 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
+    <el-row :gutter="20" >
       <el-col :span="12">
-        <el-card shadow="hover">
+        <el-card shadow="hover" >
           <div slot="header" class="clearfix">
             <span>部门积分</span>
           </div>
-          <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="date" label="日期" width="180"></el-table-column>
-            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+          <el-table :data="depatData" stripe style="overflow-y:auto;width: 100%;height:130px">
+            <el-table-column prop="Theme" label="主题" width="180"></el-table-column>
+            <el-table-column prop="Integral_num" label="积分" width="180"></el-table-column>
+            <el-table-column :formatter="formatDate" prop="Comp_date" label="完成时间"></el-table-column>
+            <el-table-column :formatter="jifen_state" prop="Statue" label="状态"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -112,7 +114,7 @@
           <div slot="header" class="clearfix">
             <span>公司积分</span>
           </div>
-          <el-table :data="tableData" stripe style="width: 100%">
+          <el-table :data="comData" stripe style="width: 100%">
             <el-table-column prop="date" label="日期" width="180"></el-table-column>
             <el-table-column prop="name" label="姓名" width="180"></el-table-column>
             <el-table-column prop="address" label="地址"></el-table-column>
@@ -124,25 +126,87 @@
 </template>
 
 <script>
+
+import moment from "moment";
 export default {
   data() {
-    return {};
+    return {
+      depatData: [],
+      comData: []
+    };
+  },
+  mounted(){
+    this.drawLine();
+  },
+  created() {
+    this.showdep_jifen();
+    this.showcom_jifen();
   },
   methods: {
-    created() {
-      this.showdep_jifen();
-      this.showcom_jifen();
-    },
     showdep_jifen() {
+      const that = this;
       this.$http({
         method: "post",
         url: "/apis/AppData.asmx/dep_jifen",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          }
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        }
+      }).then(function(res) {
+        //that.$x2js.xml2js(respones.data).string.__text
+        let bumen = JSON.parse(that.$x2js.xml2js(res.data).string.__text);
+        console.log(bumen);
+        that.depatData = bumen;
       });
     },
-    showcom_jifen() {}
+    showcom_jifen() {},
+    drawLine(){
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        // 绘制图表
+        myChart.setOption({
+            title: { text: '部门积分' },
+            tooltip: {},
+            xAxis: {
+                data: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+            },
+            yAxis: {},
+            series: [{
+                name: '积分',
+                type: 'line',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        })},
+    jifen_state: function(row, column) {
+      return row.Statue == 3
+        ? "待完成"
+        : row.Statue == 4
+        ? "已完成"
+        : row.Statue == 5
+        ? "通过"
+        : row.Statue == -5
+        ? "未通过"
+        : row.Statue == -4
+        ? "延时完成":""
+    },
+    formatDate: function(NewDtime) {
+      console.log(NewDtime, "时间");
+      var dt = new Date(parseInt(NewDtime.Comp_date.slice(6, 19)));
+      var year = dt.getFullYear();
+      var month = dt.getMonth() + 1;
+      var date = dt.getDate();
+      var hour = dt.getHours();
+      var minute = dt.getMinutes();
+      var second = dt.getSeconds();
+      return year + "-" + month + "-" + date;
+    }
+  },
+
+  filters: {
+    dateformat: function(dataStr, pattern = "YYYY-MM-DD") {
+      if (dataStr != "") {
+        return moment(dataStr).format("YYYY-MM-DD");
+      }
+    }
   }
 };
 </script>
@@ -255,5 +319,17 @@ export default {
 .schart {
   width: 100%;
   height: 300px;
+}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+width: 7px; /*滚动条宽度*/
+height: 7px; /*滚动条高度*/
+background-color: white;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
 }
 </style>

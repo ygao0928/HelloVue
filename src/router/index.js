@@ -27,6 +27,7 @@ export default new Router({
         component:()=>import('../components/views/wode.vue'),
         meta:{title:'我的'}
         
+       
       },
       {
         path:'/task',
@@ -42,7 +43,53 @@ export default new Router({
         path:'/project',
         component:()=>import('../components/views/project.vue'),
         meta:{title:'项目管理'} 
+      },{
+        path:'/gonggao',
+        component:()=>import('../components/views/wode/gonggao.vue')
       },
+      {
+        path:'/jihua',
+        component:()=>import('../components/views/wode/jihua.vue')
+      },
+      {
+        path:'/baoxiao',
+        component:()=>import('../components/views/wode/baoxiao.vue')
+      },
+      {
+        path:'/kaoqin',
+        component:()=>import('../components/views/wode/kaoqin.vue')
+      },
+      {
+        path:'/tongxunlu',
+        component:()=>import('../components/views/wode/tongxunlu.vue')
+      },
+      {
+        path:'/toupiao',
+        component:()=>import('../components/views/wode/toupiao.vue')
+      },
+      {
+        path:'/fbrw',
+        component:()=>import('../components/views/task/fbrw.vue')
+      },{
+        path:'/jltask',
+        component:()=>import('../components/views/task/jltask.vue')
+      },{
+        path:'/jlztask',
+        component:()=>import('../components/views/task/jlztask.vue')
+      },{
+        path:'/nomoaltask',
+        component:()=>import('../components/views/task/nomoaltask.vue')
+      },{
+        path:'/nomoalztask',
+        component:()=>import('../components/views/task/nomoalztask.vue')
+      },{
+        path:'/shtask',
+        component:()=>import('../components/views/task/shtask.vue')
+      },{
+        path:'/xjrw',
+        component:()=>import('../components/views/task/xjrw.vue')
+      },
+      
       ]
     }
   ]

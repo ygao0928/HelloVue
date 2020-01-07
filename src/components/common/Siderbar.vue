@@ -59,7 +59,7 @@ export default {
             items:[
                 {
                     icon: 'el-icon-user',
-                    index: '7',
+                    index: '1-7',
                     title: '我的',
                     subs:[
                         {
@@ -93,7 +93,7 @@ export default {
                 },
                 {
                     icon: 'el-icon-suitcase',
-                    index: '8',
+                    index: '2-8',
                     title: '工作任务',
                     subs:[
                         {
@@ -111,10 +111,6 @@ export default {
                         {
                             index:'jlztask',
                             title:'支线任务'
-                        },
-                        {
-                            index:'shtask',
-                            title:'审核任务'
                         },
                         {
                             index:'shtask',
